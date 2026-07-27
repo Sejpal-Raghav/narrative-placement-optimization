@@ -9,10 +9,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex items-center gap-2 text-zinc-900">
           <LayoutDashboard size={18} />
           <h1 className="text-sm font-semibold tracking-tight uppercase">NARRATIVE PLACEMENT OPTIMIZATION</h1>
-          <span className="mx-3 text-zinc-300">|</span>
-          <span className="text-sm font-medium text-zinc-500">Optimization</span>
-          <span className="mx-2 text-zinc-300">/</span>
-          <span className="text-sm font-medium text-zinc-900">Placement Engine</span>
         </div>
       </header>
       
