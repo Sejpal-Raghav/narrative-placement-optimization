@@ -86,11 +86,18 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="p-8 max-w-[1400px] mx-auto">
-        <header className="mb-8">
-          <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
-            <span className="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-600 border border-zinc-200 text-[10px] font-semibold uppercase tracking-wider">Demo Data</span>
+        {/* Demo Data Banner */}
+        <div className="mb-6 bg-blue-50 border border-blue-200 rounded-md p-3 flex items-start sm:items-center gap-3">
+          <div className="text-blue-500 mt-0.5 sm:mt-0 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
           </div>
+          <p className="text-sm text-blue-800">
+            <span className="font-semibold">Prototype Environment:</span> You are currently viewing the dashboard with pre-populated demo data. To generate live telemetry, ingest a new script using the Content Roster below.
+          </p>
+        </div>
+
+        <header className="mb-8">
+          <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
           <p className="text-sm text-zinc-500 mt-1.5 max-w-2xl leading-relaxed">
             Dynamically schedule ad breaks and paywalls by correlating content tension with session drop-off risk. 
             Avoid lulls, monetize plateaus.
