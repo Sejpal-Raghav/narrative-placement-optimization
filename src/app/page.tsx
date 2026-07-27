@@ -95,49 +95,49 @@ export default function Dashboard() {
 
         {/* Growth Pipeline Explainer */}
         <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-xl p-6 mb-8 text-white shadow-md">
-          <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider mb-4">How the Engine Drives Yield</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider mb-4">How It Works</h3>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="space-y-2 flex-1">
               <div className="flex items-center gap-2">
                 <div className="bg-indigo-500/20 text-indigo-300 p-1.5 rounded">
                   <FileText size={18} />
                 </div>
-                <h4 className="font-medium text-zinc-100">1. Signal Ingestion</h4>
+                <h4 className="font-medium text-zinc-100">1. Content Parsing</h4>
               </div>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Parse raw audio scripts to deterministically extract narrative pacing, cliffhanger intensity, and engagement hooks.
+                We analyze the raw episode script to map out pacing changes, hook strength, and cliffhangers.
               </p>
             </div>
             
-            <div className="hidden md:flex items-center justify-center text-zinc-600">
+            <div className="hidden md:block text-zinc-600 shrink-0">
               <ArrowRight size={24} />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 flex-1">
               <div className="flex items-center gap-2">
                 <div className="bg-amber-500/20 text-amber-300 p-1.5 rounded">
                   <Activity size={18} />
                 </div>
-                <h4 className="font-medium text-zinc-100">2. Drop-off Prediction</h4>
+                <h4 className="font-medium text-zinc-100">2. Risk Mapping</h4>
               </div>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Map narrative lulls and weak hooks to exact timestamps where session abandonment probability spikes.
+                We flag exact timestamps where listeners are most likely to drop off due to low narrative tension.
               </p>
             </div>
 
-            <div className="hidden md:flex items-center justify-center text-zinc-600">
+            <div className="hidden md:block text-zinc-600 shrink-0">
               <ArrowRight size={24} />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 flex-1">
               <div className="flex items-center gap-2">
                 <div className="bg-emerald-500/20 text-emerald-300 p-1.5 rounded">
                   <TrendingUp size={18} />
                 </div>
-                <h4 className="font-medium text-zinc-100">3. Yield Optimization</h4>
+                <h4 className="font-medium text-zinc-100">3. Placement Logic</h4>
               </div>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Dynamically inject ad breaks during high-attention plateaus (↑ eCPM) and deploy paywalls at peak cliffhangers (↑ Conversion).
+                We insert ad breaks during high-engagement segments to maximize completion, and trigger paywalls right at the cliffhanger.
               </p>
             </div>
           </div>
