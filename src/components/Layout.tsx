@@ -21,26 +21,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Activity size={16} />
             Placement Engine
           </a>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 text-sm font-medium transition-colors">
-            <BarChart2 size={16} />
-            Yield Analytics
-          </a>
-          
-          <div className="px-3 pb-2 pt-6 text-xs font-semibold text-zinc-500 uppercase tracking-widest">
-            Configuration
-          </div>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 text-sm font-medium transition-colors">
-            <Database size={16} />
-            Data Sources
-          </a>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 text-sm font-medium transition-colors">
-            <Headphones size={16} />
-            Audio Inventory
-          </a>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 text-sm font-medium transition-colors">
-            <Settings size={16} />
-            Settings
-          </a>
         </nav>
         
         <div className="p-4 border-t border-zinc-200">

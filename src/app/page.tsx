@@ -86,22 +86,12 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="p-8 max-w-[1400px] mx-auto">
-        <header className="mb-8 flex justify-between items-end">
-          <div>
-            <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
-            <p className="text-sm text-zinc-500 mt-1.5 max-w-2xl leading-relaxed">
-              Dynamically schedule ad breaks and paywalls by correlating content tension with session drop-off risk. 
-              Avoid lulls, monetize plateaus.
-            </p>
-          </div>
-          <div className="hidden md:flex gap-3">
-            <button className="px-4 py-2 text-sm font-medium border border-zinc-200 bg-white rounded-md hover:bg-zinc-50 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
-              Export Data
-            </button>
-            <button className="px-4 py-2 text-sm font-medium bg-zinc-900 text-white rounded-md hover:bg-zinc-800 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
-              Deploy Model
-            </button>
-          </div>
+        <header className="mb-8">
+          <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
+          <p className="text-sm text-zinc-500 mt-1.5 max-w-2xl leading-relaxed">
+            Dynamically schedule ad breaks and paywalls by correlating content tension with session drop-off risk. 
+            Avoid lulls, monetize plateaus.
+          </p>
         </header>
 
         {/* Global Metrics */}
