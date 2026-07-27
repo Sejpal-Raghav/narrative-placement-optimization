@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ep_01",
+    "title": "A Scandal in Bohemia - Part 1",
+    "episode_number": 1,
+    "duration_estimate": 900
+  },
+  {
+    "id": "ep_02",
+    "title": "A Scandal in Bohemia - Part 2",
+    "episode_number": 2,
+    "duration_estimate": 920
+  },
+  {
+    "id": "ep_03",
+    "title": "The Red-Headed League - Part 1",
+    "episode_number": 3,
+    "duration_estimate": 880
+  },
+  {
+    "id": "ep_04",
+    "title": "The Red-Headed League - Part 2",
+    "episode_number": 4,
+    "duration_estimate": 890
+  },
+  {
+    "id": "ep_05",
+    "title": "A Case of Identity",
+    "episode_number": 5,
+    "duration_estimate": 1050
+  },
+  {
+    "id": "ep_06",
+    "title": "The Boscombe Valley Mystery - Part 1",
+    "episode_number": 6,
+    "duration_estimate": 940
+  },
+  {
+    "id": "ep_07",
+    "title": "The Boscombe Valley Mystery - Part 2",
+    "episode_number": 7,
+    "duration_estimate": 910
+  },
+  {
+    "id": "ep_08",
+    "title": "The Five Orange Pips",
+    "episode_number": 8,
+    "duration_estimate": 1100
+  },
+  {
+    "id": "ep_09",
+    "title": "The Man with the Twisted Lip - Part 1",
+    "episode_number": 9,
+    "duration_estimate": 850
+  },
+  {
+    "id": "ep_10",
+    "title": "The Man with the Twisted Lip - Part 2",
+    "episode_number": 10,
+    "duration_estimate": 880
+  },
+  {
+    "id": "ep_11",
+    "title": "The Adventure of the Blue Carbuncle",
+    "episode_number": 11,
+    "duration_estimate": 1150
+  },
+  {
+    "id": "ep_12",
+    "title": "The Adventure of the Speckled Band",
+    "episode_number": 12,
+    "duration_estimate": 1200
+  }
+]
