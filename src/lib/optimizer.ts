@@ -56,19 +56,28 @@ export function optimizePlacements(
   aggressiveness: number // 1 to 10
 ): Placement[] {
   const placements: Placement[] = [];
-  const riskThreshold = 80 - (aggressiveness * 5); // higher aggressiveness ignores risk
+  // Higher aggressiveness tolerates higher drop-off risk
+  const maxTolerableRisk = aggressiveness * 10; // agg=1 -> 10, agg=10 -> 100
   
   Object.values(episodes).forEach(ep => {
     const dropOffRisk = calculateDropOffRisk(ep.hook_strength, ep.pacing_flag);
     const monReadiness = calculateMonetizationReadiness(ep.cliffhanger_intensity);
     
-    // Find local peaks in tension curve for ad breaks
+    // Find points to place ads
     const curve = ep.tension_curve;
+    let lastAdIndex = -5; // prevent back-to-back clustering
+    
     for (let i = 1; i < curve.length - 1; i++) {
-      if (curve[i] > curve[i - 1] && curve[i] > curve[i + 1]) {
+      const isPeak = curve[i] > curve[i - 1] && curve[i] >= curve[i + 1];
+      
+      // Higher aggressiveness lowers the tension required to place an ad
+      const tensionThreshold = 95 - (aggressiveness * 5); // agg=1 -> 90, agg=5 -> 70, agg=10 -> 45
+      const isHighTension = curve[i] >= tensionThreshold;
+      
+      if ((isPeak || isHighTension) && (i - lastAdIndex >= 2)) {
         
-        // constraint check: if general episode drop off risk is too high, skip ads unless aggressive
-        if (dropOffRisk < riskThreshold || aggressiveness > 7) {
+        // Only place if the episode's drop-off risk is tolerable (or if we're extremely aggressive)
+        if (dropOffRisk <= maxTolerableRisk || aggressiveness >= 9) {
           placements.push({
             episodeId: ep.id,
             timestamp: i * 10, // 0 to 100 mapping for 10 points
@@ -76,13 +85,15 @@ export function optimizePlacements(
             projected_uplift: (curve[i] * aggressiveness) / 100,
             churn_risk: dropOffRisk * (aggressiveness / 10)
           });
+          lastAdIndex = i;
         }
       }
     }
 
     // Paywalls
     // For demo purposes, we place a paywall at the END (100) if readiness is high
-    if (monReadiness > (80 - aggressiveness * 5)) {
+    const minReadinessRequired = 100 - (aggressiveness * 6); // agg=1 -> 94, agg=10 -> 40
+    if (monReadiness >= minReadinessRequired) {
       placements.push({
         episodeId: ep.id,
         timestamp: 100,
