@@ -1,78 +1,72 @@
-# StoryYield: Narrative-to-Revenue Placement Engine
+# Narrative Placement Optimization Engine
 
-**A dynamic growth engine that maximizes LTV by replacing fixed-schedule ad breaks with content-aware monetization triggers.**
+A deterministic pipeline that maximizes user lifetime value (LTV) by dynamically computing optimal ad break and paywall coordinates based on narrative telemetry.
 
----
-
-## 📖 The Problem: Static Placements Kill Retention
-
-Audio platforms like PocketFM possess highly sophisticated recommendation systems, but monetization strategy often relies on blunt instruments: **fixed-interval ad schedules** (e.g., placing an ad every 5 minutes).
-
-This creates two massive growth leaks:
-1. **Retention Destruction (Churn):** Placing an ad right after a weak narrative hook or during a slow pacing lull dramatically increases session abandonment probability.
-2. **Sub-optimal ARPU:** Placing a paywall arbitrarily, rather than at peak emotional investment (a high-intensity cliffhanger), leaves conversion potential on the table.
-
-## 🚀 The Solution: StoryYield
-
-StoryYield bridges the gap between **Content Signals** and **Yield Optimization**. 
-
-Instead of treating every minute of audio as interchangeable inventory, StoryYield deterministically parses episode scripts to extract core narrative telemetry (tension curves, pacing, hook strength). It then feeds these signals into a placement optimizer to dynamically trigger ad breaks and paywalls.
-
-### How it drives growth:
-- **Maximizes Session Length:** By avoiding ad insertions during predicted drop-off spikes (narrative lulls), users listen longer, unlocking more impression opportunities over their lifetime.
-- **Maximizes eCPM & Conversion:** Ads are injected during high-attention plateaus (increasing completion rates), and paywalls are strictly gated behind upper-quartile cliffhangers (maximizing willingness-to-pay).
+For an in-depth breakdown of the architecture, algorithmic placement constraints, and the rationale behind the primary dashboard metrics, please refer to the [Technical Architecture and Decisions](TECHNICAL_DECISIONS.md) document.
 
 ---
 
-## ⚙️ Architecture & Pipeline
+## The Engineering Challenge: Static Inventory Scheduling
 
-StoryYield operates as a 3-step deterministic pipeline:
+Audio platforms rely on complex recommendation algorithms, yet monetization insertion largely operates on static, time-based intervals (e.g., executing a programmatic ad break every 5 minutes). 
 
-1. **Signal Ingestion (Content-Aware Extraction)**
-   - You upload an `.epub` or `.txt` episode script.
-   - The engine uses a local, lightweight Language Model to act as a pure signal extractor. It deterministically scores the script's tension, pacing, and cliffhanger intensity, outputting a strict JSON payload.
+This introduces two distinct inefficiencies:
+1. **Accelerated Churn:** Ad placement during weak narrative hooks or structural pacing lulls demonstrably increases session abandonment probability.
+2. **Sub-optimal Conversion:** Firing a paywall at arbitrary intervals fails to capitalize on peak emotional investment, leading to suboptimal conversion rates.
+
+## The Solution: Content-Aware Yield Optimization
+
+This engine bridges signal extraction and yield optimization. Rather than treating audio playback timeline purely as generic inventory space, the pipeline parses the audio script text to generate structural telemetry (tension curves, pacing matrices, and hook strength). 
+
+This data is fed into a placement optimizer to dynamically trigger monetization events based on deterministic algorithmic constraints.
+
+### Optimization Mechanics:
+- **Session Length Maximization:** The algorithm scans the extracted tension curve for local minima and applies a blocking radius, preventing ad insertions during predicted drop-off spikes.
+- **eCPM and Conversion Maximization:** Ads are injected into high-attention plateaus to drive completion rates, while paywalls are strictly gated behind upper-quartile cliffhanger intensity scores to intercept users at peak willingness-to-pay.
+
+---
+
+## System Architecture and Pipeline
+
+The application operates via a three-stage deterministic pipeline:
+
+1. **Signal Ingestion and Extraction**
+   - Ingests raw `.epub` or `.txt` episode transcripts.
+   - Utilizes a localized LLM runtime to execute signal extraction over the script buffer. It scores pacing, tension, and cliffhangers, outputting a strict JSON telemetry payload.
 2. **Drop-off Prediction**
-   - The engine correlates the extracted tension curve with historical session drop-off heuristics.
+   - The engine correlates the extracted tension vectors with historical session drop-off heuristics to flag high-risk timestamps.
 3. **Yield Optimization (Decision Engine)**
-   - A mathematical optimizer runs over the predicted telemetry. It balances a configurable **Monetization vs. Retention Tradeoff**, placing ads where attention is highest and restricting them where churn risk spikes.
+   - A mathematical optimizer parses the telemetry. It balances a configurable scalar variable representing the Monetization vs. Retention Tradeoff, computing precise temporal coordinates for ad and paywall events.
 
 ---
 
-## 🛠 Quick Start Guide
+## Technical Initialization
 
-You can run the full engine and interactive dashboard locally.
+The repository contains the full Next.js dashboard and the backend extraction API.
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/en/) (v18+)
-- [Ollama](https://ollama.com/) (For local signal extraction without OpenAI fees)
+- Node.js (v18 or higher)
+- Ollama (Required for local execution of the inference API)
 
-### 1. Start the Signal Extractor
-The extraction API expects Ollama to be running locally. For optimal speed, we use the lightweight `llama3.2:latest` model.
+### 1. Initialize Inference Engine
+The extraction API routes depend on a local inference server. We utilize `llama3.2:latest` due to its small memory footprint and high processing speed for deterministic parsing tasks.
 ```bash
-# Pull the model
 ollama run llama3.2:latest
 ```
 
-### 2. Run the Dashboard
+### 2. Compile and Run Application
 ```bash
-# Clone the repository
 git clone https://github.com/Sejpal-Raghav/narrative-placement-optimization.git
 cd narrative-placement-optimization
 
-# Install dependencies
 npm install
 
-# Start the growth engine UI
 npm run dev
 ```
 
-Navigate to `http://localhost:3000`. 
+Navigate to `http://localhost:3000` to access the optimization dashboard.
 
-### 3. Test the Engine
-1. Click the **"Ingest Script"** button in the dashboard sidebar.
-2. Upload any `.epub` or `.txt` story file.
-3. Watch as the engine extracts the telemetry and instantly recalculates the optimal monetization placements!
-
----
-
-*Built to demonstrate how product engineering can directly influence ARPU and LTV through content-aware logic.*
+### 3. Pipeline Testing
+1. Click the "Ingest Script" utility in the dashboard sidebar.
+2. Provide a `.epub` or `.txt` file representing an audio transcript.
+3. The inference API will extract the structural telemetry, and the client-side decision engine will dynamically re-compute the optimal placement overlays.
