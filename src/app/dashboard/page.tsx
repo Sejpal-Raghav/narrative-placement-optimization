@@ -96,12 +96,31 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <header className="mb-8">
-          <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
-          <p className="text-sm text-zinc-500 mt-1.5 max-w-2xl leading-relaxed">
-            Dynamically schedule ad breaks and paywalls by correlating content tension with session drop-off risk. 
-            Avoid lulls, monetize plateaus.
-          </p>
+        <header className="mb-8 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
+            <p className="text-sm text-zinc-500 mt-1.5 max-w-2xl leading-relaxed">
+              Dynamically schedule ad breaks and paywalls by correlating content tension with session drop-off risk. 
+              Avoid lulls, monetize plateaus.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <input 
+              type="file" 
+              accept=".txt,.epub" 
+              className="hidden" 
+              ref={fileInputRef} 
+              onChange={handleFileUpload} 
+            />
+            <button 
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="flex items-center gap-2 text-sm font-medium bg-zinc-900 text-white px-4 py-2 rounded-md hover:bg-zinc-800 disabled:opacity-70 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
+            >
+              {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+              {isUploading ? 'Processing...' : 'Ingest Script'}
+            </button>
+          </div>
         </header>
 
         {/* Global Metrics */}
@@ -241,25 +260,8 @@ export default function Dashboard() {
 
             {/* Content Roster Data Table */}
             <div className="border border-zinc-200 bg-white rounded-md flex flex-col h-[500px]">
-              <div className="flex justify-between items-center p-4 border-b border-zinc-200">
+              <div className="p-4 border-b border-zinc-200">
                 <h3 className="text-sm font-semibold text-zinc-900 tracking-tight">Content Roster</h3>
-                <div>
-                  <input 
-                    type="file" 
-                    accept=".txt,.epub" 
-                    className="hidden" 
-                    ref={fileInputRef} 
-                    onChange={handleFileUpload} 
-                  />
-                  <button 
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={isUploading}
-                    className="flex items-center gap-2 text-xs font-medium border border-zinc-200 bg-white text-zinc-900 px-3 py-1.5 rounded hover:bg-zinc-50 disabled:opacity-50 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
-                  >
-                    {isUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-                    {isUploading ? 'Processing...' : 'Ingest Script'}
-                  </button>
-                </div>
               </div>
               
               <div className="overflow-x-auto">
