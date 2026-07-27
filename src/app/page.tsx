@@ -7,7 +7,7 @@ import TradeoffSlider from '@/components/ui/TradeoffSlider';
 import TensionChart from '@/components/TensionChart';
 import resultsData from '@/data/results.json';
 import { EpisodeData, optimizePlacements } from '@/lib/optimizer';
-import { AlertCircle, FileText, Brain, Code, UploadCloud, Loader2 } from 'lucide-react';
+import { AlertCircle, FileText, TrendingUp, Activity, Code, UploadCloud, Loader2, ArrowRight } from 'lucide-react';
 
 const initialEpisodes = resultsData as Record<string, EpisodeData>;
 
@@ -87,11 +87,61 @@ export default function Dashboard() {
     <Layout>
       <div className="p-8 max-w-7xl mx-auto">
         <header className="mb-8">
-          <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Narrative Placement Optimization</h2>
-          <p className="text-sm text-zinc-500 mt-1">
-            Placing ad breaks and paywalls based on LLM-extracted tension and drop-off risks.
+          <h2 className="text-3xl font-bold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
+          <p className="text-sm text-zinc-500 mt-1 max-w-3xl">
+            A deterministic growth engine that maximizes LTV by replacing fixed-schedule ad breaks with dynamic, content-aware monetization triggers. We predict drop-off risk to minimize churn and identify high-engagement plateaus to maximize eCPM.
           </p>
         </header>
+
+        {/* Growth Pipeline Explainer */}
+        <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-xl p-6 mb-8 text-white shadow-md">
+          <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider mb-4">How the Engine Drives Yield</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="bg-indigo-500/20 text-indigo-300 p-1.5 rounded">
+                  <FileText size={18} />
+                </div>
+                <h4 className="font-medium text-zinc-100">1. Signal Ingestion</h4>
+              </div>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Parse raw audio scripts to deterministically extract narrative pacing, cliffhanger intensity, and engagement hooks.
+              </p>
+            </div>
+            
+            <div className="hidden md:flex items-center justify-center text-zinc-600">
+              <ArrowRight size={24} />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="bg-amber-500/20 text-amber-300 p-1.5 rounded">
+                  <Activity size={18} />
+                </div>
+                <h4 className="font-medium text-zinc-100">2. Drop-off Prediction</h4>
+              </div>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Map narrative lulls and weak hooks to exact timestamps where session abandonment probability spikes.
+              </p>
+            </div>
+
+            <div className="hidden md:flex items-center justify-center text-zinc-600">
+              <ArrowRight size={24} />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="bg-emerald-500/20 text-emerald-300 p-1.5 rounded">
+                  <TrendingUp size={18} />
+                </div>
+                <h4 className="font-medium text-zinc-100">3. Yield Optimization</h4>
+              </div>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Dynamically inject ad breaks during high-attention plateaus (↑ eCPM) and deploy paywalls at peak cliffhangers (↑ Conversion).
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Global Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
@@ -101,19 +151,19 @@ export default function Dashboard() {
             subtext={`Across ${episodeList.length} episodes`} 
           />
           <MetricCard 
-            title="Total Paywalls" 
+            title="Paywall Triggers" 
             value={totalPaywalls} 
             subtext="High willingness-to-pay zones" 
           />
           <MetricCard 
-            title="Avg Revenue Uplift" 
+            title="Projected ARPU Uplift" 
             value={`+${avgUplift.toFixed(1)}%`} 
-            subtext="Projected vs fixed schedule" 
+            subtext="Vs. fixed 5-min intervals" 
           />
           <MetricCard 
-            title="Avg Churn Risk" 
+            title="Session Drop-off Risk" 
             value={`${avgChurnRisk.toFixed(1)}%`} 
-            subtext="Drop-off probability" 
+            subtext="Reduced by smart pacing" 
           />
         </div>
 
@@ -125,29 +175,35 @@ export default function Dashboard() {
               placements={currentPlacements} 
             />
             
-            <TradeoffSlider 
-              value={aggressiveness} 
-              onChange={setAggressiveness} 
-            />
+            <div className="bg-white border border-zinc-200 rounded-lg p-5 shadow-sm">
+              <h4 className="text-sm font-semibold text-zinc-900 tracking-tight mb-4">Monetization vs. Retention Tradeoff</h4>
+              <p className="text-xs text-zinc-500 mb-4">
+                Adjust the density of ad placements. Higher aggressiveness yields more immediate impressions but increases the risk of session abandonment.
+              </p>
+              <TradeoffSlider 
+                value={aggressiveness} 
+                onChange={setAggressiveness} 
+              />
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white border border-zinc-200 rounded-lg p-5 shadow-sm">
                 <div className="flex gap-2 items-center mb-3">
-                  <Brain className="text-indigo-600" size={18} />
-                  <h4 className="text-sm font-semibold text-zinc-900">LLM Narrative Insights</h4>
+                  <Activity className="text-indigo-600" size={18} />
+                  <h4 className="text-sm font-semibold text-zinc-900">Content-Aware Signal Extraction</h4>
                 </div>
                 <p className="text-sm text-zinc-600 leading-relaxed">
-                  {selectedEp.llm_insights || "No insights available for this episode."}
+                  {selectedEp.llm_insights || "No signals extracted for this session."}
                 </p>
               </div>
 
               <div className="bg-white border border-zinc-200 rounded-lg p-5 shadow-sm">
                 <div className="flex gap-2 items-center mb-3">
                   <AlertCircle className="text-amber-600" size={18} />
-                  <h4 className="text-sm font-semibold text-zinc-900">Placement Strategy</h4>
+                  <h4 className="text-sm font-semibold text-zinc-900">Decision Engine Strategy</h4>
                 </div>
                 <p className="text-sm text-zinc-600 leading-relaxed">
-                  The optimizer avoids placing ads within 2 points of a drop-off risk spike (e.g., when the hook is weak and the pacing is a lull). Paywalls are placed dynamically based on cliffhanger intensity.
+                  The optimizer prevents ad insertion within a 2-point radius of a predicted drop-off spike (e.g., weak hook + pacing lull). Paywalls are strictly gated behind upper-quartile cliffhanger intensity scores.
                 </p>
               </div>
             </div>
@@ -156,8 +212,11 @@ export default function Dashboard() {
             <div className="bg-zinc-950 rounded-lg p-5 shadow-sm overflow-hidden">
               <div className="flex gap-2 items-center mb-3">
                 <Code className="text-zinc-400" size={18} />
-                <h4 className="text-sm font-semibold text-zinc-100">Structured Data Payload (Zod Parsed)</h4>
+                <h4 className="text-sm font-semibold text-zinc-100">Placement Engine Raw Payload</h4>
               </div>
+              <p className="text-xs text-zinc-400 mb-3">
+                The deterministic JSON output generated by the signal extractor, used to compute placement coordinates.
+              </p>
               <pre className="text-xs text-zinc-300 overflow-x-auto p-4 bg-zinc-900 rounded border border-zinc-800">
                 {JSON.stringify({
                   hook_strength: selectedEp.hook_strength,
@@ -176,7 +235,7 @@ export default function Dashboard() {
           <div className="space-y-6">
             <div className="border border-zinc-200 bg-white rounded-lg p-5 shadow-sm flex flex-col h-[400px]">
               <div className="flex justify-between items-center mb-4 shrink-0">
-                <h3 className="text-sm font-semibold text-zinc-900 tracking-tight">Episode Selector</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 tracking-tight">Active Content Roster</h3>
                 <div>
                   <input 
                     type="file" 
@@ -191,7 +250,7 @@ export default function Dashboard() {
                     className="flex items-center gap-1.5 text-xs font-medium bg-zinc-900 text-white px-2.5 py-1.5 rounded hover:bg-zinc-800 disabled:opacity-50 transition-colors"
                   >
                     {isUploading ? <Loader2 size={14} className="animate-spin" /> : <UploadCloud size={14} />}
-                    {isUploading ? 'Extracting...' : 'Upload'}
+                    {isUploading ? 'Processing...' : 'Ingest Script'}
                   </button>
                 </div>
               </div>
@@ -213,7 +272,7 @@ export default function Dashboard() {
                         {ep.title}
                       </p>
                       <p className="text-xs text-zinc-500 mt-0.5">
-                        Hook: {ep.hook_strength} | Cliffhanger: {ep.cliffhanger_intensity}
+                        Hook Score: {ep.hook_strength} | Cliffhanger: {ep.cliffhanger_intensity}
                       </p>
                     </div>
                   </button>
@@ -222,7 +281,7 @@ export default function Dashboard() {
             </div>
             
             <div className="border border-zinc-200 bg-white rounded-lg p-5 shadow-sm">
-              <h3 className="text-sm font-semibold text-zinc-900 tracking-tight mb-4">Extracted Signals</h3>
+              <h3 className="text-sm font-semibold text-zinc-900 tracking-tight mb-4">Content Telemetry Signals</h3>
               <dl className="space-y-3">
                 <div className="flex justify-between border-b border-zinc-100 pb-2">
                   <dt className="text-sm text-zinc-500">Arc Position</dt>
@@ -233,11 +292,11 @@ export default function Dashboard() {
                   <dd className="text-sm font-medium text-zinc-900 capitalize">{selectedEp.pacing_flag}</dd>
                 </div>
                 <div className="flex justify-between border-b border-zinc-100 pb-2">
-                  <dt className="text-sm text-zinc-500">Hook Strength</dt>
+                  <dt className="text-sm text-zinc-500">Engagement Hook</dt>
                   <dd className="text-sm font-medium text-zinc-900">{selectedEp.hook_strength}/100</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-sm text-zinc-500">Cliffhanger Intensity</dt>
+                  <dt className="text-sm text-zinc-500">Conversion Potential</dt>
                   <dd className="text-sm font-medium text-zinc-900">{selectedEp.cliffhanger_intensity}/100</dd>
                 </div>
               </dl>

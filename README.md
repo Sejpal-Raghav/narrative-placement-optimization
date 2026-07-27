@@ -1,60 +1,78 @@
-# StoryYield
+# StoryYield: Narrative-to-Revenue Placement Engine
 
-**A narrative-to-revenue placement engine.**
+**A dynamic growth engine that maximizes LTV by replacing fixed-schedule ad breaks with content-aware monetization triggers.**
 
-Inspired by PocketFM's engineering blog regarding Canon (narrative structure extraction) and ad-mediation (session-based scheduling).
+---
 
-StoryYield connects these two systems: it uses LLM-extracted narrative signals (cliffhanger intensity, hook strength, arc pacing) to decide *where* to place ad breaks and paywall points within an episode to maximize projected revenue while minimizing listener drop-off.
+## 📖 The Problem: Static Placements Kill Retention
 
-## Thesis
-Listener drop-off and willingness-to-pay both spike around specific narrative moments. A placement engine that knows the story can outperform one that only knows the session. StoryYield optimizes ad breaks for local tension peaks, and paywalls for post-cliffhanger moments, while avoiding weak narrative segments that represent high churn risk.
+Audio platforms like PocketFM possess highly sophisticated recommendation systems, but monetization strategy often relies on blunt instruments: **fixed-interval ad schedules** (e.g., placing an ad every 5 minutes).
 
-## Tech Stack
-- **Frontend**: Next.js 15 (App Router), TypeScript, Tailwind CSS
-- **Visualization**: Recharts (Custom overlaid tension charts)
-- **Local AI Pipeline**: Ollama (Qwen 2.5 14B) via OpenAI SDK
-- **Design System**: "Anti-AI" aesthetic (zinc/grayscale with strict typography)
+This creates two massive growth leaks:
+1. **Retention Destruction (Churn):** Placing an ad right after a weak narrative hook or during a slow pacing lull dramatically increases session abandonment probability.
+2. **Sub-optimal ARPU:** Placing a paywall arbitrarily, rather than at peak emotional investment (a high-intensity cliffhanger), leaves conversion potential on the table.
 
-## Architecture
-The system consists of two main parts:
-1. **Extraction Pipeline (`src/scripts/extract.ts`)**: A local node script that passes episode transcripts to a local Ollama LLM to extract JSON-structured attributes (hook_strength, cliffhanger_intensity, tension_curve).
-2. **Dashboard & Optimizer (`src/app/page.tsx` & `src/lib/optimizer.ts`)**: The Next.js dashboard that visualizes the pre-computed signals and dynamically optimizes ad/paywall placements based on a user-controlled "aggressiveness" slider.
+## 🚀 The Solution: StoryYield
 
-## How to Run the Extraction Pipeline Locally
-Running extraction locally provides full control without per-request API costs. This project uses Ollama to run the LLM.
+StoryYield bridges the gap between **Content Signals** and **Yield Optimization**. 
 
-### 1. Install Ollama
-Download and install Ollama from [ollama.com](https://ollama.com/).
+Instead of treating every minute of audio as interchangeable inventory, StoryYield deterministically parses episode scripts to extract core narrative telemetry (tension curves, pacing, hook strength). It then feeds these signals into a placement optimizer to dynamically trigger ad breaks and paywalls.
 
-### 2. Pull a Model
-Pull a model that fits your hardware. We recommend `qwen2.5:14b-instruct` for strong JSON structure and reasoning (requires ~10GB VRAM/RAM).
+### How it drives growth:
+- **Maximizes Session Length:** By avoiding ad insertions during predicted drop-off spikes (narrative lulls), users listen longer, unlocking more impression opportunities over their lifetime.
+- **Maximizes eCPM & Conversion:** Ads are injected during high-attention plateaus (increasing completion rates), and paywalls are strictly gated behind upper-quartile cliffhangers (maximizing willingness-to-pay).
+
+---
+
+## ⚙️ Architecture & Pipeline
+
+StoryYield operates as a 3-step deterministic pipeline:
+
+1. **Signal Ingestion (Content-Aware Extraction)**
+   - You upload an `.epub` or `.txt` episode script.
+   - The engine uses a local, lightweight Language Model to act as a pure signal extractor. It deterministically scores the script's tension, pacing, and cliffhanger intensity, outputting a strict JSON payload.
+2. **Drop-off Prediction**
+   - The engine correlates the extracted tension curve with historical session drop-off heuristics.
+3. **Yield Optimization (Decision Engine)**
+   - A mathematical optimizer runs over the predicted telemetry. It balances a configurable **Monetization vs. Retention Tradeoff**, placing ads where attention is highest and restricting them where churn risk spikes.
+
+---
+
+## 🛠 Quick Start Guide
+
+You can run the full engine and interactive dashboard locally.
+
+### Prerequisites
+- [Node.js](https://nodejs.org/en/) (v18+)
+- [Ollama](https://ollama.com/) (For local signal extraction without OpenAI fees)
+
+### 1. Start the Signal Extractor
+The extraction API expects Ollama to be running locally. For optimal speed, we use the lightweight `llama3.2:latest` model.
 ```bash
-ollama pull qwen2.5:14b-instruct
+# Pull the model
+ollama run llama3.2:latest
 ```
 
-*Alternative for tight VRAM (~5-6GB):*
+### 2. Run the Dashboard
 ```bash
-ollama pull llama3.1:8b-instruct
-```
+# Clone the repository
+git clone https://github.com/Sejpal-Raghav/narrative-placement-optimization.git
+cd narrative-placement-optimization
 
-*Alternative for CPU-only or very limited RAM (Note: lower extraction quality):*
-```bash
-ollama pull qwen2.5:7b
-```
+# Install dependencies
+npm install
 
-### 3. Provide Transcripts
-Place your audio drama transcripts in the `src/data/episodes/` folder, named according to the IDs in `src/data/episodes.json` (e.g., `ep_01.txt`).
-
-### 4. Run the Script
-Ollama automatically runs an OpenAI-compatible server at `http://localhost:11434/v1`.
-Execute the extraction pipeline using `ts-node` or equivalent:
-```bash
-npx ts-node src/scripts/extract.ts
-```
-*(This will update `src/data/results.json` which drives the dashboard).*
-
-## Running the Dashboard
-```bash
+# Start the growth engine UI
 npm run dev
 ```
-Navigate to `http://localhost:3000`.
+
+Navigate to `http://localhost:3000`. 
+
+### 3. Test the Engine
+1. Click the **"Ingest Script"** button in the dashboard sidebar.
+2. Upload any `.epub` or `.txt` story file.
+3. Watch as the engine extracts the telemetry and instantly recalculates the optimal monetization placements!
+
+---
+
+*Built to demonstrate how product engineering can directly influence ARPU and LTV through content-aware logic.*
