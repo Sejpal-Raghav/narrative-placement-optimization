@@ -7,7 +7,7 @@ import TradeoffSlider from '@/components/ui/TradeoffSlider';
 import TensionChart from '@/components/TensionChart';
 import resultsData from '@/data/results.json';
 import { EpisodeData, optimizePlacements } from '@/lib/optimizer';
-import { AlertCircle, FileText, TrendingUp, Activity, Code, UploadCloud, Loader2, ArrowRight } from 'lucide-react';
+import { FileText, TrendingUp, Activity, CheckCircle2, Loader2, Upload, AlertCircle, Eye } from 'lucide-react';
 
 const initialEpisodes = resultsData as Record<string, EpisodeData>;
 
@@ -76,7 +76,7 @@ export default function Dashboard() {
   if (!selectedEp) {
     return (
       <Layout>
-        <div className="flex h-full items-center justify-center text-zinc-500">
+        <div className="flex h-full items-center justify-center text-zinc-500 font-medium">
           Loading dashboard...
         </div>
       </Layout>
@@ -85,100 +85,102 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="p-8 max-w-7xl mx-auto">
-        <header className="mb-8">
-          <h2 className="text-3xl font-bold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
-          <p className="text-sm text-zinc-500 mt-1 max-w-3xl">
-            A deterministic growth engine that maximizes LTV by replacing fixed-schedule ad breaks with dynamic, content-aware monetization triggers. We predict drop-off risk to minimize churn and identify high-engagement plateaus to maximize eCPM.
-          </p>
-        </header>
-
-        {/* Growth Pipeline Explainer */}
-        <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-xl p-6 mb-8 text-white shadow-md">
-          <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider mb-4">How It Works</h3>
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <div className="space-y-2 flex-1">
-              <div className="flex items-center gap-2">
-                <div className="bg-indigo-500/20 text-indigo-300 p-1.5 rounded">
-                  <FileText size={18} />
-                </div>
-                <h4 className="font-medium text-zinc-100">1. Content Parsing</h4>
-              </div>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                We analyze the raw episode script to map out pacing changes, hook strength, and cliffhangers.
-              </p>
-            </div>
-            
-            <div className="hidden md:block text-zinc-600 shrink-0">
-              <ArrowRight size={24} />
-            </div>
-
-            <div className="space-y-2 flex-1">
-              <div className="flex items-center gap-2">
-                <div className="bg-amber-500/20 text-amber-300 p-1.5 rounded">
-                  <Activity size={18} />
-                </div>
-                <h4 className="font-medium text-zinc-100">2. Risk Mapping</h4>
-              </div>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                We flag exact timestamps where listeners are most likely to drop off due to low narrative tension.
-              </p>
-            </div>
-
-            <div className="hidden md:block text-zinc-600 shrink-0">
-              <ArrowRight size={24} />
-            </div>
-
-            <div className="space-y-2 flex-1">
-              <div className="flex items-center gap-2">
-                <div className="bg-emerald-500/20 text-emerald-300 p-1.5 rounded">
-                  <TrendingUp size={18} />
-                </div>
-                <h4 className="font-medium text-zinc-100">3. Placement Logic</h4>
-              </div>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                We insert ad breaks during high-engagement segments to maximize completion, and trigger paywalls right at the cliffhanger.
-              </p>
-            </div>
+      <div className="p-8 max-w-[1400px] mx-auto">
+        <header className="mb-8 flex justify-between items-end">
+          <div>
+            <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
+            <p className="text-sm text-zinc-500 mt-1.5 max-w-2xl leading-relaxed">
+              Dynamically schedule ad breaks and paywalls by correlating content tension with session drop-off risk. 
+              Avoid lulls, monetize plateaus.
+            </p>
           </div>
-        </div>
+          <div className="hidden md:flex gap-3">
+            <button className="px-4 py-2 text-sm font-medium border border-zinc-200 bg-white rounded-md hover:bg-zinc-50 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+              Export Data
+            </button>
+            <button className="px-4 py-2 text-sm font-medium bg-zinc-900 text-white rounded-md hover:bg-zinc-800 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+              Deploy Model
+            </button>
+          </div>
+        </header>
 
         {/* Global Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <MetricCard 
             title="Total Ad Placements" 
-            value={totalAds} 
-            subtext={`Across ${episodeList.length} episodes`} 
+            value={totalAds.toLocaleString()} 
+            subtext={`Across ${episodeList.length} indexed episodes`} 
           />
           <MetricCard 
             title="Paywall Triggers" 
-            value={totalPaywalls} 
-            subtext="High willingness-to-pay zones" 
+            value={totalPaywalls.toLocaleString()} 
+            subtext="Upper-quartile intensity zones" 
           />
           <MetricCard 
             title="Projected ARPU Uplift" 
-            value={`+${avgUplift.toFixed(1)}%`} 
+            value={`+${avgUplift.toFixed(2)}%`} 
             subtext="Vs. fixed 5-min intervals" 
           />
           <MetricCard 
             title="Session Drop-off Risk" 
-            value={`${avgChurnRisk.toFixed(1)}%`} 
-            subtext="Reduced by smart pacing" 
+            value={`${avgChurnRisk.toFixed(2)}%`} 
+            subtext="Minimized via dynamic pacing" 
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Growth Pipeline Explainer (Minimalist) */}
+        <div className="border border-zinc-200 rounded-md bg-white p-6 mb-8 flex flex-col md:flex-row items-start md:items-center gap-6">
+          <div className="shrink-0 md:w-48">
+            <h3 className="text-xs font-semibold text-zinc-900 uppercase tracking-widest mb-1">Pipeline Architecture</h3>
+            <p className="text-xs text-zinc-500">Deterministic signal extraction and yield optimization logic.</p>
+          </div>
+          
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6 border-l border-zinc-100 pl-6">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <FileText size={16} className="text-zinc-400" />
+                <h4 className="text-sm font-medium text-zinc-900">1. Content Parsing</h4>
+              </div>
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                Analyze script telemetry to map narrative pacing and cliffhangers.
+              </p>
+            </div>
+            
+            <div className="space-y-1.5 border-l border-zinc-100 pl-6">
+              <div className="flex items-center gap-2">
+                <Activity size={16} className="text-zinc-400" />
+                <h4 className="text-sm font-medium text-zinc-900">2. Risk Mapping</h4>
+              </div>
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                Flag structural timestamps where listener abandonment probability spikes.
+              </p>
+            </div>
+
+            <div className="space-y-1.5 border-l border-zinc-100 pl-6">
+              <div className="flex items-center gap-2">
+                <TrendingUp size={16} className="text-zinc-400" />
+                <h4 className="text-sm font-medium text-zinc-900">3. Placement Logic</h4>
+              </div>
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                Insert ads during high-engagement segments to maximize completion rates.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
           {/* Main Visualization Area */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="xl:col-span-2 space-y-6">
+            
             <TensionChart 
               tensionCurve={selectedEp.tension_curve} 
               placements={currentPlacements} 
             />
             
-            <div className="bg-white border border-zinc-200 rounded-lg p-5 shadow-sm">
-              <h4 className="text-sm font-semibold text-zinc-900 tracking-tight mb-4">Monetization vs. Retention Tradeoff</h4>
-              <p className="text-xs text-zinc-500 mb-4">
-                Adjust the density of ad placements. Higher aggressiveness yields more immediate impressions but increases the risk of session abandonment.
+            <div className="border border-zinc-200 rounded-md bg-white p-6">
+              <h4 className="text-sm font-semibold text-zinc-900 tracking-tight mb-2">Monetization vs. Retention Tradeoff</h4>
+              <p className="text-xs text-zinc-500 mb-6 max-w-xl leading-relaxed">
+                Adjust the density threshold for ad placements. Higher aggressiveness yields more immediate impressions but increases the predicted risk of session abandonment.
               </p>
               <TradeoffSlider 
                 value={aggressiveness} 
@@ -187,55 +189,60 @@ export default function Dashboard() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white border border-zinc-200 rounded-lg p-5 shadow-sm">
-                <div className="flex gap-2 items-center mb-3">
-                  <Activity className="text-indigo-600" size={18} />
-                  <h4 className="text-sm font-semibold text-zinc-900">Content-Aware Signal Extraction</h4>
+              <div className="border border-zinc-200 rounded-md bg-white p-6">
+                <div className="flex gap-2 items-center mb-4">
+                  <Eye className="text-zinc-400" size={16} />
+                  <h4 className="text-sm font-semibold text-zinc-900">Signal Extraction Log</h4>
                 </div>
-                <p className="text-sm text-zinc-600 leading-relaxed">
+                <p className="text-xs text-zinc-600 leading-relaxed bg-zinc-50 p-3 rounded border border-zinc-100">
                   {selectedEp.llm_insights || "No signals extracted for this session."}
                 </p>
               </div>
 
-              <div className="bg-white border border-zinc-200 rounded-lg p-5 shadow-sm">
-                <div className="flex gap-2 items-center mb-3">
-                  <AlertCircle className="text-amber-600" size={18} />
-                  <h4 className="text-sm font-semibold text-zinc-900">Decision Engine Strategy</h4>
+              <div className="border border-zinc-200 rounded-md bg-white p-6">
+                <div className="flex gap-2 items-center mb-4">
+                  <AlertCircle className="text-zinc-400" size={16} />
+                  <h4 className="text-sm font-semibold text-zinc-900">Decision Engine Rules</h4>
                 </div>
-                <p className="text-sm text-zinc-600 leading-relaxed">
-                  The optimizer prevents ad insertion within a 2-point radius of a predicted drop-off spike (e.g., weak hook + pacing lull). Paywalls are strictly gated behind upper-quartile cliffhanger intensity scores.
-                </p>
+                <ul className="text-xs text-zinc-600 leading-relaxed space-y-2 list-disc pl-4">
+                  <li>Blocks ad insertion within a 2-point radius of a drop-off spike (weak hook + pacing lull).</li>
+                  <li>Paywalls are strictly gated behind upper-quartile cliffhanger intensity scores.</li>
+                  <li>Minimizes back-to-back ad clusters.</li>
+                </ul>
               </div>
             </div>
-            
-            {/* Structured Output Viewer */}
-            <div className="bg-zinc-950 rounded-lg p-5 shadow-sm overflow-hidden">
-              <div className="flex gap-2 items-center mb-3">
-                <Code className="text-zinc-400" size={18} />
-                <h4 className="text-sm font-semibold text-zinc-100">Placement Engine Raw Payload</h4>
-              </div>
-              <p className="text-xs text-zinc-400 mb-3">
-                The deterministic JSON output generated by the signal extractor, used to compute placement coordinates.
-              </p>
-              <pre className="text-xs text-zinc-300 overflow-x-auto p-4 bg-zinc-900 rounded border border-zinc-800">
-                {JSON.stringify({
-                  hook_strength: selectedEp.hook_strength,
-                  cliffhanger_intensity: selectedEp.cliffhanger_intensity,
-                  tension_curve: selectedEp.tension_curve,
-                  arc_position: selectedEp.arc_position,
-                  pacing_flag: selectedEp.pacing_flag,
-                  llm_insights: selectedEp.llm_insights
-                }, null, 2)}
-              </pre>
-            </div>
-
           </div>
           
-          {/* Sidebar / Inspector */}
+          {/* Right Column: Data Table & Telemetry */}
           <div className="space-y-6">
-            <div className="border border-zinc-200 bg-white rounded-lg p-5 shadow-sm flex flex-col h-[400px]">
-              <div className="flex justify-between items-center mb-4 shrink-0">
-                <h3 className="text-sm font-semibold text-zinc-900 tracking-tight">Active Content Roster</h3>
+            
+            {/* Telemetry Signals */}
+            <div className="border border-zinc-200 bg-white rounded-md p-6">
+              <h3 className="text-sm font-semibold text-zinc-900 tracking-tight mb-5">Telemetry Payload: {selectedEp.id}</h3>
+              <dl className="space-y-4">
+                <div className="flex justify-between border-b border-zinc-100 pb-3">
+                  <dt className="text-xs font-medium text-zinc-500">Arc Position</dt>
+                  <dd className="text-xs font-semibold text-zinc-900 capitalize">{selectedEp.arc_position}</dd>
+                </div>
+                <div className="flex justify-between border-b border-zinc-100 pb-3">
+                  <dt className="text-xs font-medium text-zinc-500">Pacing Flag</dt>
+                  <dd className="text-xs font-semibold text-zinc-900 capitalize">{selectedEp.pacing_flag}</dd>
+                </div>
+                <div className="flex justify-between border-b border-zinc-100 pb-3">
+                  <dt className="text-xs font-medium text-zinc-500">Engagement Hook Score</dt>
+                  <dd className="text-xs font-semibold text-zinc-900">{selectedEp.hook_strength}/100</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-xs font-medium text-zinc-500">Conversion Potential</dt>
+                  <dd className="text-xs font-semibold text-zinc-900">{selectedEp.cliffhanger_intensity}/100</dd>
+                </div>
+              </dl>
+            </div>
+
+            {/* Content Roster Data Table */}
+            <div className="border border-zinc-200 bg-white rounded-md flex flex-col h-[500px]">
+              <div className="flex justify-between items-center p-4 border-b border-zinc-200">
+                <h3 className="text-sm font-semibold text-zinc-900 tracking-tight">Content Roster</h3>
                 <div>
                   <input 
                     type="file" 
@@ -247,60 +254,60 @@ export default function Dashboard() {
                   <button 
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isUploading}
-                    className="flex items-center gap-1.5 text-xs font-medium bg-zinc-900 text-white px-2.5 py-1.5 rounded hover:bg-zinc-800 disabled:opacity-50 transition-colors"
+                    className="flex items-center gap-2 text-xs font-medium border border-zinc-200 bg-white text-zinc-900 px-3 py-1.5 rounded hover:bg-zinc-50 disabled:opacity-50 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
                   >
-                    {isUploading ? <Loader2 size={14} className="animate-spin" /> : <UploadCloud size={14} />}
+                    {isUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
                     {isUploading ? 'Processing...' : 'Ingest Script'}
                   </button>
                 </div>
               </div>
               
-              <div className="space-y-2 overflow-y-auto pr-2 flex-1 custom-scrollbar">
-                {episodeList.map((ep) => (
-                  <button
-                    key={ep.id}
-                    onClick={() => setSelectedEpId(ep.id)}
-                    className={`w-full flex items-start gap-3 p-3 rounded-md text-left transition-colors border ${
-                      selectedEpId === ep.id 
-                        ? 'bg-zinc-50 border-zinc-300 ring-1 ring-zinc-900' 
-                        : 'border-transparent hover:bg-zinc-50'
-                    }`}
-                  >
-                    <FileText className={`mt-0.5 shrink-0 ${selectedEpId === ep.id ? 'text-zinc-900' : 'text-zinc-400'}`} size={16} />
-                    <div className="min-w-0">
-                      <p className={`text-sm font-medium truncate ${selectedEpId === ep.id ? 'text-zinc-900' : 'text-zinc-700'}`}>
-                        {ep.title}
-                      </p>
-                      <p className="text-xs text-zinc-500 mt-0.5">
-                        Hook Score: {ep.hook_strength} | Cliffhanger: {ep.cliffhanger_intensity}
-                      </p>
-                    </div>
-                  </button>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-zinc-200 bg-zinc-50/50">
+                      <th className="px-4 py-3 text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">Status</th>
+                      <th className="px-4 py-3 text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">Episode Name</th>
+                      <th className="px-4 py-3 text-[10px] font-semibold text-zinc-500 uppercase tracking-wider text-right">Yield Score</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div className="overflow-y-auto flex-1 custom-scrollbar">
+                <table className="w-full text-left border-collapse">
+                  <tbody>
+                    {episodeList.map((ep) => (
+                      <tr 
+                        key={ep.id}
+                        onClick={() => setSelectedEpId(ep.id)}
+                        className={`border-b border-zinc-100 cursor-pointer transition-colors ${
+                          selectedEpId === ep.id ? 'bg-zinc-50' : 'hover:bg-zinc-50/50'
+                        }`}
+                      >
+                        <td className="px-4 py-3 w-10">
+                          {selectedEpId === ep.id ? (
+                            <CheckCircle2 size={14} className="text-emerald-500" />
+                          ) : (
+                            <div className="w-3.5 h-3.5 rounded-full border border-zinc-200 bg-zinc-50"></div>
+                          )}
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className={`text-xs font-medium truncate w-48 ${selectedEpId === ep.id ? 'text-zinc-900' : 'text-zinc-600'}`}>
+                            {ep.title}
+                          </p>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <span className={`text-xs font-semibold ${ep.cliffhanger_intensity > 80 ? 'text-emerald-600' : 'text-zinc-500'}`}>
+                            {((ep.hook_strength + ep.cliffhanger_intensity) / 2).toFixed(0)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
             
-            <div className="border border-zinc-200 bg-white rounded-lg p-5 shadow-sm">
-              <h3 className="text-sm font-semibold text-zinc-900 tracking-tight mb-4">Content Telemetry Signals</h3>
-              <dl className="space-y-3">
-                <div className="flex justify-between border-b border-zinc-100 pb-2">
-                  <dt className="text-sm text-zinc-500">Arc Position</dt>
-                  <dd className="text-sm font-medium text-zinc-900 capitalize">{selectedEp.arc_position}</dd>
-                </div>
-                <div className="flex justify-between border-b border-zinc-100 pb-2">
-                  <dt className="text-sm text-zinc-500">Pacing Flag</dt>
-                  <dd className="text-sm font-medium text-zinc-900 capitalize">{selectedEp.pacing_flag}</dd>
-                </div>
-                <div className="flex justify-between border-b border-zinc-100 pb-2">
-                  <dt className="text-sm text-zinc-500">Engagement Hook</dt>
-                  <dd className="text-sm font-medium text-zinc-900">{selectedEp.hook_strength}/100</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-sm text-zinc-500">Conversion Potential</dt>
-                  <dd className="text-sm font-medium text-zinc-900">{selectedEp.cliffhanger_intensity}/100</dd>
-                </div>
-              </dl>
-            </div>
           </div>
         </div>
       </div>
