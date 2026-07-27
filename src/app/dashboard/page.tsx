@@ -87,7 +87,10 @@ export default function Dashboard() {
     <Layout>
       <div className="p-8 max-w-[1400px] mx-auto">
         <header className="mb-8">
-          <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
+          <div className="flex items-center gap-3">
+            <h2 className="text-2xl font-semibold text-zinc-900 tracking-tight">Yield Optimizer Engine</h2>
+            <span className="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-600 border border-zinc-200 text-[10px] font-semibold uppercase tracking-wider">Demo Data</span>
+          </div>
           <p className="text-sm text-zinc-500 mt-1.5 max-w-2xl leading-relaxed">
             Dynamically schedule ad breaks and paywalls by correlating content tension with session drop-off risk. 
             Avoid lulls, monetize plateaus.

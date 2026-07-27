@@ -57,13 +57,13 @@ export default function LandingPage() {
         {/* CTA */}
         <div className="border-t border-zinc-200 pt-12 flex items-center justify-between">
           <div className="text-xs text-zinc-400 font-medium uppercase tracking-widest">
-            System Initialization
+            Try the Prototype
           </div>
           <Link 
             href="/dashboard" 
             className="flex items-center gap-2 bg-zinc-900 text-white px-5 py-2.5 rounded-md text-sm font-medium hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
           >
-            Initialize Engine
+            View Dashboard
             <ArrowRight size={16} />
           </Link>
         </div>
